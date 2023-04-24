@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
@@ -27,6 +29,21 @@ class User
 
     #[ORM\Column]
     private ?bool $administrator = false;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $updated_at;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $created_at;
+
+    #[ORM\OneToMany(mappedBy: 'user_id', targetEntity: Bet::class)]
+    private Collection $bets;
+
+    public function __construct()
+    {
+        $this->bets = new ArrayCollection();
+    }
+
 
     public function getId(): int
     {
@@ -89,6 +106,60 @@ class User
     public function setAdministrator(bool $administrator): self
     {
         $this->administrator = $administrator;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeImmutable
+    {
+        return $this->updated_at;
+    }
+
+    public function setUpdatedAt(\DateTimeImmutable $updated_at): self
+    {
+        $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->created_at;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $created_at): self
+    {
+        $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Bet>
+     */
+    public function getBets(): Collection
+    {
+        return $this->bets;
+    }
+
+    public function addBet(Bet $bet): self
+    {
+        if (!$this->bets->contains($bet)) {
+            $this->bets->add($bet);
+            $bet->setUserId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBet(Bet $bet): self
+    {
+        if ($this->bets->removeElement($bet)) {
+            // set the owning side to null (unless already changed)
+            if ($bet->getUserId() === $this) {
+                $bet->setUserId(null);
+            }
+        }
 
         return $this;
     }

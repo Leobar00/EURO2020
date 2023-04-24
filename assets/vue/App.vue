@@ -3,11 +3,11 @@
 </template>
 
 <script>
-import Navbar from './components/Header'
+import Header from './components/Header'
 export default {
   name: "App",
   components: {
-    'Header': Navbar
+    'Header': Header
   },
   props: {
     title: String

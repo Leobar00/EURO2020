@@ -1,40 +1,28 @@
 <template>
-  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">Navbar</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Link</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Dropdown
-            </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">Action</a></li>
-              <li><a class="dropdown-item" href="#">Another action</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="#">Something else here</a></li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link disabled">Disabled</a>
-          </li>
-        </ul>
-        <form class="d-flex" role="search">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
+      <!-- Logo e nome del sito -->
+      <a class="navbar-brand" href="#">
+        <img src="/path/to/logo.png" alt="Logo" width="30" height="30" class="d-inline-block align-text-top me-2">
+        EURO
+      </a>
+
+      <!-- Icona del profilo -->
+      <div class="navbar-nav ms-auto d-flex align-items-center">
+        <a class="nav-link" href="#">
+          <i class="fas fa-user-circle me-1"></i>
+          Nome Utente
+        </a>
+      </div>
+
+      <!-- Pulsanti di Login e Signup -->
+      <div class="navbar-nav d-flex align-items-center">
+        <a class="nav-link" href="#">Login</a>
+        <a class="nav-link btn btn-primary" href="#">Signup</a>
       </div>
     </div>
   </nav>
+
 </template>
 
 <script>
@@ -43,6 +31,10 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+  header {
+    min-height: 4rem;
+    width: 100%;
+    background: lightgray;
+  }
 </style>

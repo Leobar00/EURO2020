@@ -13,11 +13,12 @@
     </head>
     <body>
         <div id="app">
-            <App title="{{ test }}" />
+            <App />
         </div>
 
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
+            <script src="https://kit.fontawesome.com/99de2a8870.js" crossorigin="anonymous"></script>
         {% endblock %}
     </body>
 </html>

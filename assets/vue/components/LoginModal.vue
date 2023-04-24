@@ -8,13 +8,13 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form action="/login">
+          <form id="login" action="/ajax/login" @submit.prevent="loginAjax">
             <div class="form-floating mb-3">
-              <input type="email" class="form-control" id="loginInput" placeholder="name@example.com">
+              <input type="email" v-model="email" class="form-control" id="loginInput" placeholder="name@example.com">
               <label for="loginInput">Email address</label>
             </div>
             <div class="form-floating mb-3">
-              <input type="password" class="form-control" id="loginPassword" placeholder="Password">
+              <input type="password" v-model="password" class="form-control" id="loginPassword" placeholder="Password">
               <label for="loginPassword">Password</label>
             </div>
             <div class="mb-3 form-check">
@@ -30,8 +30,33 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
-  name: "LoginModal"
+  name: "LoginModal",
+  data() {
+    return {
+      email: '',
+      password: '',
+    };
+  },
+  methods: {
+    loginAjax: function() {
+      let form = document.getElementById('login');
+      let url  = form.getAttribute('action');
+
+      axios.post(url,{
+        email:this.email,
+        password:this.password
+      },{headers: {
+          'Content-Type': 'application/json'
+        }}).then(response => {
+        console.log('Success' + JSON.stringify(response.data))
+      }).catch(error => {
+        console.log(error)
+      })
+    }
+  }
 }
 </script>
 

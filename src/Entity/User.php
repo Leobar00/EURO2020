@@ -21,7 +21,7 @@ class User
     #[ORM\Column(length: 255)]
     private string $surname;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255,unique: true)]
     private string $email;
 
     #[ORM\Column(length: 255)]

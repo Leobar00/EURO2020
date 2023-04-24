@@ -1,14 +1,28 @@
 <template>
   <!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+          <h1 class="modal-title fs-5" id="loginModalLabel">Login</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          ...
+          <form action="/login">
+            <div class="form-floating mb-3">
+              <input type="email" class="form-control" id="loginInput" placeholder="name@example.com">
+              <label for="loginInput">Email address</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input type="password" class="form-control" id="loginPassword" placeholder="Password">
+              <label for="loginPassword">Password</label>
+            </div>
+            <div class="mb-3 form-check">
+              <input type="checkbox" class="form-check-input" id="loginCheck">
+              <label class="form-check-label" for="loginCheck">Check me out</label>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
         </div>
       </div>
     </div>

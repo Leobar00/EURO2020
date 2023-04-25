@@ -50,6 +50,20 @@ class GameRepository extends ServiceEntityRepository
         return $result;
     }
 
+    public function findAllEndedMatch(): array
+    {
+        $now = new \DateTime();
+        $nowString = $now->format('Y-m-d H:i:s');
+        $queryBuilder = $this->createQueryBuilder('m');
+
+        $queryBuilder
+            ->select('m')
+            ->where('m.end_time < :now')
+            ->setParameter('now', $nowString);
+
+        return $queryBuilder->getQuery()->getResult(Query::HYDRATE_ARRAY);
+    }
+
 //    /**
 //     * @return Game[] Returns an array of Game objects
 //     */

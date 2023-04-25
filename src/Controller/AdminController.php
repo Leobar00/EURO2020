@@ -9,13 +9,33 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class AdminController extends AbstractController
 {
     #[Route('/admin', name: 'app_admin')]
-    public function index(): Response
+    public function index(SessionInterface $session): Response|JsonResponse
     {
+        $sessionData = $session->get('session');
+
+        if(empty($sessionData)) {
+            return new JsonResponse([
+                'success' => false,
+                'message' => 'Anauthorized'
+            ]);
+        }
+
+        $isAdmin = $sessionData['admin'];
+
+        if (!$isAdmin) {
+            return new JsonResponse([
+                'success' => false,
+                'message' => 'Anauthorized'
+            ]);
+        }
+
         return $this->render('base.html.twig', [
             'controller_name' => 'AdminController',
         ]);
@@ -54,6 +74,5 @@ class AdminController extends AbstractController
             'message' => 'Match registered succesfully'
         ]);
     }
-
 
 }

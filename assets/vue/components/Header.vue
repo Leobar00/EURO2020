@@ -1,5 +1,5 @@
 <template>
-  <LoginModal @username="getUsername"/>
+  <LoginModal @username="getUsername" />
   <SignupModal />
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
@@ -12,16 +12,17 @@
       <!-- Icona del profilo -->
       <div class="navbar-nav ms-auto d-flex align-items-center">
         <a class="nav-link" href="#">
-          <i class="fas fa-user-circle me-1"></i>
+          <i class="fas fa-user-circle me-1" v-if="username"></i>
           <span v-if="username">Welcome {{ username }}</span>
-          <span v-else>User</span>
         </a>
       </div>
 
       <!-- Pulsanti di Login e Signup -->
       <div class="navbar-nav d-flex align-items-center">
-        <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#loginModal" >Login</a>
-        <a class="nav-link btn btn-primary" href="#" data-bs-toggle="modal" data-bs-target="#signupModal">Signup</a>
+        <a class="nav-link" v-if="admin" href="/admin" >Admin</a>
+        <a class="nav-link" v-if="username == null" href="#" data-bs-toggle="modal" data-bs-target="#loginModal" >Login</a>
+        <a class="nav-link btn btn-primary" v-if="username == null" href="#" data-bs-toggle="modal" data-bs-target="#signupModal">Signup</a>
+        <a class="nav-link btn btn-outline-danger" v-if="username != null" @click="exit"  href="#">Esc</a>
       </div>
     </div>
   </nav>
@@ -31,18 +32,31 @@
 <script>
 import LoginModal from "./LoginModal";
 import SignupModal from "./SignupModal";
+import axios from 'axios';
 export default {
   name: "Header",
   components: {SignupModal, LoginModal},
   data() {
     return {
-      username:null
+      username:null,
+      admin:false
     }
   },
   methods: {
-    getUsername(username) {
+    getUsername: function (username) {
       this.username = username
+    },
+    exit: function() {
+      axios.get('/ajax/quit').then((response) => {
+        window.location.href = '/';
+      })
     }
+  },
+  mounted() {
+    axios.get('/ajax/session').then((response) => {
+      this.admin = response.data.isAdmin
+      this.username = response.data.user
+    })
   }
 }
 </script>

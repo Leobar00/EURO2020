@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h1>Partite di calcio</h1>
+    <h1>Football match</h1>
     <div class="row" >
       <div class="col-4" v-for="game in games" :key="game.id">
         <div class="card">

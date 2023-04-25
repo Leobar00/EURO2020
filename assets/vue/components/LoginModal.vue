@@ -45,7 +45,7 @@ export default {
       email: '',
       password: '',
       status:true,
-      name:''
+      name:'',
     };
   },
   methods: {
@@ -60,11 +60,16 @@ export default {
           'Content-Type': 'application/json'
       }}).then(response => {
         if(response.data.success) {
-
           this.status = true;
           this.name   = response.data.username
+
           document.querySelector('#login .alert-success').classList.remove('d-none');
           this.$emit('username', this.name);
+          if(response.data.isAdmin) {
+
+            this.admin = true;
+            window.location.href = '/admin'
+          }
         }else {
 
           this.status = false;

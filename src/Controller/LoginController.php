@@ -37,12 +37,49 @@ class LoginController extends AbstractController
             ]);
         }
 
-        $session->set('username', $user->getName());
+        $session->set('session',[
+            "name" => $user->getName(),
+            "admin"=> $user->isAdministrator()
+        ]);
 
         return new JsonResponse([
             'success' => true,
             'message' => 'User found',
-            'username'=> $user->getName()
+            'username'=> $user->getName(),
+            'isAdmin' => $user->isAdministrator()
         ]);
     }
+
+    #[Route('/ajax/session', name: 'app_session',methods: "GET")]
+    public function sessionCheck(SessionInterface $session): JsonResponse
+    {
+        $user = $session->get('session');
+
+        if(empty($user)) {
+            return new JsonResponse([
+                'success' => true,
+                'message' => 'User not found',
+            ]);
+        }
+
+        return new JsonResponse([
+            'success' => true,
+            'message' => 'User found',
+            'user'    => $user['name'],
+            'isAdmin' => $user['admin']
+        ]);
+    }
+
+    #[Route('/ajax/quit', name: 'app_quit',methods: "GET")]
+    public function clearSession(SessionInterface $session): JsonResponse
+    {
+        $session->clear();
+
+        return new JsonResponse([
+            'success' => true,
+            'message' => 'Esc',
+        ]);
+    }
+
+
 }

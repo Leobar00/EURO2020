@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class RegistrationController extends AbstractController
 {
-    #[Route('/ajax/registration', name: 'app_registration')]
+    #[Route('/ajax/registration', name: 'app_registration', methods: "POST")]
     public function index(Request $request, EntityManagerInterface $entityManager, Encrypt $encrypt): JsonResponse
     {
         $data     = json_decode($request->getContent(),true);
@@ -20,6 +20,13 @@ class RegistrationController extends AbstractController
         $surname  = $data['surname'];
         $email    = $data['email'];
         $password = $data['password'];
+
+        if(empty($name) || empty($surname) || empty($email) || empty($password)) {
+            return new JsonResponse([
+                'success' => false,
+                'message' => 'Error ',
+            ]);
+        }
 
         $user = new User();
         $user

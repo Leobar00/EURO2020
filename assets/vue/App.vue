@@ -1,5 +1,8 @@
 <template>
   <Header />
+  <main>
+    <router-view></router-view>
+  </main>
 </template>
 
 <script>
@@ -9,19 +12,9 @@ export default {
   components: {
     'Header': Header
   },
-  props: {
-    title: String
-  },
   data(){
     return {
-      message:'bello'
     }
-  },
-  methods: {
-
-  },
-  mounted() {
-
   }
 }
 </script>

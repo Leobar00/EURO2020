@@ -8,26 +8,32 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form id="registration" action="/ajax/registration" @submit.prevent="registerAjax">
+          <form id="registration" class="needs-validation" action="/ajax/registration" @submit.prevent="registerAjax">
             <div class="form-floating mb-3">
-              <input type="email" v-model="email" class="form-control" id="registerInput" placeholder="name@example.com">
+              <input type="email" v-model="email" class="form-control" id="registerInput" placeholder="name@example.com" required>
               <label for="registerInput">Email address</label>
             </div>
-            <div class="form-floating mb-3">
-              <input type="name" v-model="name" class="form-control" id="registerName" placeholder="name">
+            <div class="form-floating mb-3 input-group has-validation">
+              <input type="name" v-model="name" class="form-control" id="registerName" placeholder="name" required>
               <label for="registerName">Name</label>
-            </div>
-            <div class="form-floating mb-3">
-              <input type="surname" v-model="surname" class="form-control" id="registerSurname" placeholder="surname">
+            </div> input-group has-validation
+            <div class="form-floating mb-3 input-group has-validation">
+              <input type="surname" v-model="surname" class="form-control" id="registerSurname" placeholder="surname" required>
               <label for="registerSurname">Surname</label>
             </div>
-            <div class="form-floating mb-3">
-              <input type="password" v-model="password" class="form-control" id="registerPassword" placeholder="Password">
+            <div class="form-floating mb-3 input-group has-validation">
+              <input type="password" v-model="password" class="form-control" id="registerPassword" placeholder="Password" required>
               <label for="registerPassword">Password</label>
             </div>
             <div class="mb-3 form-check">
               <input type="checkbox" class="form-check-input" id="registerCheck">
               <label class="form-check-label" for="registerCheck">Check me out</label>
+            </div>
+            <div class="mx-3 d-none alert alert-success" v-if="status != false" role="alert">
+              Succesfully registration
+            </div>
+            <div class="mx-3 d-none alert alert-danger" v-if="status == false" role="alert">
+              Error
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
           </form>
@@ -47,6 +53,7 @@ export default {
       surname: '',
       email: '',
       password: '',
+      status:false
     };
   },
   methods: {
@@ -61,9 +68,16 @@ export default {
         },{headers: {
           'Content-Type': 'application/json'
         }}).then(response => {
-          console.log('Success' + JSON.stringify(response.data))
+          if(response.data.success) {
+            this.status = true;
+            document.querySelector('#registration .alert-success').classList.remove('d-none');
+          }else {
+            this.status = false;
+            document.querySelector('#registration .alert-danger').classList.remove('d-none');
+          }
         }).catch(error => {
-          console.log(error)
+          this.status = false;
+          document.querySelector('#registration .alert-danger').classList.remove('d-none');
         })
     }
   }

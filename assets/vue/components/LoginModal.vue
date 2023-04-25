@@ -8,18 +8,24 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form id="login" action="/ajax/login" @submit.prevent="loginAjax">
+          <form id="login" class="needs-validation" action="/ajax/login" @submit.prevent="loginAjax">
             <div class="form-floating mb-3">
-              <input type="email" v-model="email" class="form-control" id="loginInput" placeholder="name@example.com">
+              <input type="email" v-model="email" class="form-control" id="loginInput" placeholder="name@example.com" required>
               <label for="loginInput">Email address</label>
             </div>
             <div class="form-floating mb-3">
-              <input type="password" v-model="password" class="form-control" id="loginPassword" placeholder="Password">
+              <input type="password" v-model="password" class="form-control" id="loginPassword" placeholder="Password" required>
               <label for="loginPassword">Password</label>
             </div>
             <div class="mb-3 form-check">
               <input type="checkbox" class="form-check-input" id="loginCheck">
               <label class="form-check-label" for="loginCheck">Check me out</label>
+            </div>
+            <div class="mx-3 d-none alert alert-success" v-if="status != false" role="alert">
+              Welcome {{ name }}
+            </div>
+            <div class="mx-3 d-none alert alert-danger" v-if="status == false" role="alert">
+              Password or User wrong!
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
           </form>
@@ -38,6 +44,8 @@ export default {
     return {
       email: '',
       password: '',
+      status:true,
+      name:''
     };
   },
   methods: {
@@ -50,10 +58,21 @@ export default {
         password:this.password
       },{headers: {
           'Content-Type': 'application/json'
-        }}).then(response => {
-        console.log('Success' + JSON.stringify(response.data))
+      }}).then(response => {
+        if(response.data.success) {
+
+          this.status = true;
+          this.name   = response.data.username
+          document.querySelector('#login .alert-success').classList.remove('d-none');
+        }else {
+
+          this.status = false;
+          document.querySelector('#login .alert-danger').classList.remove('d-none');
+        }
       }).catch(error => {
-        console.log(error)
+
+        this.status = false;
+        document.querySelector('#login .alert-danger').classList.remove('d-none');
       })
     }
   }

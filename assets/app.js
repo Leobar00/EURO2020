@@ -14,13 +14,10 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap';
 
 import {createApp} from 'vue';
+import routes from './vue/Route'
 import App from './vue/App.vue';
 
-const app = createApp({
-    components: {
-        App
-    }
-});
+const app = createApp(App).use(routes);
 
 app.mount("#app");
 

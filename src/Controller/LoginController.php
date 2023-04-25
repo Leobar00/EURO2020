@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class LoginController extends AbstractController
 {
-    #[Route('/ajax/login', name: 'app_login')]
+    #[Route('/ajax/login', name: 'app_login',methods: "POST")]
     public function index(Request $request,UserRepository $userRepository): JsonResponse
     {
         $data     = json_decode($request->getContent(),true);
@@ -26,6 +26,14 @@ class LoginController extends AbstractController
             return new JsonResponse([
                 'success' => true,
                 'message' => 'User found',
+                'username'=> $user->getName()
+            ]);
+        }
+
+        if($user) {
+            return new JsonResponse([
+                'success' => false,
+                'message' => 'Wrong Password',
             ]);
         }
 

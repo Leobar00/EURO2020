@@ -29,10 +29,10 @@
               <input type="checkbox" class="form-check-input" id="registerCheck">
               <label class="form-check-label" for="registerCheck">Check me out</label>
             </div>
-            <div :class="'mx-3 d-none alert alert-success' + status != false ? 'd-none' : ''"  role="alert">
+            <div class='mx-3 alert alert-success d-none'  role="alert">
               Succesfully registration
             </div>
-            <div :class="'mx-3 alert alert-danger' + status == false ? 'd-none' : ''" role="alert">
+            <div class='mx-3 alert alert-danger d-none' role="alert">
               Error
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
@@ -53,7 +53,6 @@ export default {
       surname: '',
       email: '',
       password: '',
-      status:false
     };
   },
   methods: {
@@ -69,14 +68,12 @@ export default {
           'Content-Type': 'application/json'
         }}).then(response => {
           if(response.data.success) {
-            this.status = true;
+            document.querySelector('#registration .alert-danger').classList.add('d-none');
             document.querySelector('#registration .alert-success').classList.remove('d-none');
           }else {
-            this.status = false;
             document.querySelector('#registration .alert-danger').classList.remove('d-none');
           }
         }).catch(error => {
-          this.status = false;
           document.querySelector('#registration .alert-danger').classList.remove('d-none');
         })
     }

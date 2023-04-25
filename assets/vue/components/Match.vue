@@ -8,9 +8,9 @@
             <h5 class="card-title">{{ game.home_team }} - {{ game.away_team }}</h5>
             <p class="card-text">{{ formatDate(game.start_time.date) }}</p>
             <div class="d-flex justify-content-around">
-              <button type="button" class="btn btn-primary">1</button>
-              <button type="button" class="btn btn-primary">X</button>
-              <button type="button" class="btn btn-primary">2</button>
+              <button type="button" @click="placeBet(game.id,'1')" class="btn btn-primary">1</button>
+              <button type="button" @click="placeBet(game.id,'X')" class="btn btn-primary">X</button>
+              <button type="button" @click="placeBet(game.id,'2')" class="btn btn-primary">2</button>
             </div>
           </div>
         </div>
@@ -38,6 +38,18 @@ export default {
       const hour = data.getHours().toString().padStart(2, '0');
       const minute = data.getMinutes().toString().padStart(2, '0');
       return `${day}/${month}/${year} ${hour}:${minute}`;
+    },
+    placeBet: function(gameId,bet) {
+
+      const data = { game_id: gameId, bet: bet };
+      axios.post('/place-bet', data).then(response => {
+
+        this.games = response.data.games;
+        this.bets = response.data.bets;
+      }).catch(error => {
+        console.log(error);
+      });
+
     }
   },
   mounted() {

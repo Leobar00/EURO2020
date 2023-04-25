@@ -21,10 +21,10 @@
               <input type="checkbox" class="form-check-input" id="loginCheck">
               <label class="form-check-label" for="loginCheck">Check me out</label>
             </div>
-            <div class="mx-3 d-none alert alert-success" v-if="status != false" role="alert">
+            <div class='mx-3 d-none alert alert-success d-none' role="alert">
               Welcome {{ name }}
             </div>
-            <div class="mx-3 d-none alert alert-danger" v-if="status == false" role="alert">
+            <div class='mx-3 alert alert-danger d-none' role="alert">
               Password or User wrong!
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
@@ -44,7 +44,6 @@ export default {
     return {
       email: '',
       password: '',
-      status:true,
       name:'',
     };
   },
@@ -60,14 +59,12 @@ export default {
           'Content-Type': 'application/json'
       }}).then(response => {
         if(response.data.success) {
-          this.status = true;
           this.name   = response.data.username
-
+          document.querySelector('#login .alert-danger').classList.add('d-none');
           document.querySelector('#login .alert-success').classList.remove('d-none');
           this.$emit('username', this.name);
           if(response.data.isAdmin) {
 
-            this.admin = true;
             window.location.href = '/admin'
           }else {
 
@@ -75,12 +72,9 @@ export default {
           }
         }else {
 
-          this.status = false;
           document.querySelector('#login .alert-danger').classList.remove('d-none');
         }
       }).catch(error => {
-
-        this.status = false;
         document.querySelector('#login .alert-danger').classList.remove('d-none');
       })
     }

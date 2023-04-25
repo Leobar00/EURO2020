@@ -20,7 +20,7 @@
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label for="awayGol">Gol Away Team</label>
-                    <input type="number" name="awayGol" id="awayGol"  class="form-control" >
+                    <input type="number" name="awayGol" id="awayGol"  class="form-control" :value="">
                   </div>
                 </div>
               </div>
@@ -32,7 +32,6 @@
           </div>
         </form>
       </li>
-      <!-- Aggiungere altre partite come elementi della lista -->
     </ul>
   </div>
 

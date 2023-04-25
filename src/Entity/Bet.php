@@ -22,10 +22,10 @@ class Bet
     private Collection $match_id;
 
     #[ORM\Column]
-    private ?int $home_score = null;
+    private ?int $home_score = 0;
 
     #[ORM\Column]
-    private ?int $away_score = null;
+    private ?int $away_score = 0;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $updated_at = null;

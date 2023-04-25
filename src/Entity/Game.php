@@ -32,7 +32,7 @@ class Game
     #[ORM\Column]
     private \DateTimeImmutable $created_at;
 
-    #[ORM\ManyToOne(inversedBy: 'match_id')]
+    #[ORM\ManyToOne(inversedBy: 'match_id',cascade: ['all'])]
     private ?Bet $bet = null;
 
     public function getId(): int

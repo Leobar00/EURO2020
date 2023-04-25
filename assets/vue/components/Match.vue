@@ -3,7 +3,7 @@
     <h1>Football match</h1>
     <div class="row" >
       <div class="col-4" v-for="game in games" :key="game.id">
-        <div class="card">
+        <div class="card my-3">
           <div class="card-body">
             <h5 class="card-title">{{ game.home_team }} - {{ game.away_team }}</h5>
             <p class="card-text">{{ formatDate(game.start_time.date) }}</p>

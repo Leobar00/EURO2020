@@ -12,8 +12,9 @@
 
     </head>
     <body>
-        <div id="app"></div>
-
+        {% block body %}
+            <div id="app"></div>
+        {% endblock %}
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
             <script src="https://kit.fontawesome.com/99de2a8870.js" crossorigin="anonymous"></script>

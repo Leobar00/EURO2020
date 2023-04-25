@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="container mt-5">
+        <div class="card border-danger">
+            <div class="card-header bg-danger text-white">
+                <h3 class="card-title">Unauthorized Access</h3>
+            </div>
+            <div class="card-body">
+                <p class="card-text">Sorry, you are not authorized to access this page. Please log in with a valid account.</p>
+                <a href="/" class="btn btn-primary">Homepage</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

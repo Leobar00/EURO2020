@@ -69,6 +69,9 @@ export default {
 
             this.admin = true;
             window.location.href = '/admin'
+          }else {
+
+            window.location.href = '/'
           }
         }else {
 

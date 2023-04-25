@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Bet;
 use App\Entity\Game;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
@@ -21,24 +22,17 @@ class AdminController extends AbstractController
         $sessionData = $session->get('session');
 
         if(empty($sessionData)) {
-            return new JsonResponse([
-                'success' => false,
-                'message' => 'Anauthorized'
-            ]);
+            return $this->render('admin/unauthorized.html.twig', []);
         }
 
         $isAdmin = $sessionData['admin'];
 
         if (!$isAdmin) {
-            return new JsonResponse([
-                'success' => false,
-                'message' => 'Anauthorized'
-            ]);
+
+            return $this->render('admin/unauthorized.html.twig', []);
         }
 
-        return $this->render('base.html.twig', [
-            'controller_name' => 'AdminController',
-        ]);
+        return $this->render('base.html.twig', []);
     }
 
     #[Route('/ajax/create/match', name: 'app_create_match')]
@@ -57,6 +51,11 @@ class AdminController extends AbstractController
             ]);
         }
 
+        $bet = new Bet();
+        $bet
+            ->setCreatedAt(new \DateTimeImmutable())
+            ->setUpdatedAt(new \DateTimeImmutable());
+
         $match = new Game();
         $match
             ->setHomeTeam($homeTeam)
@@ -64,7 +63,9 @@ class AdminController extends AbstractController
             ->setStartTime($startDate)
             ->setEndTime($endDate)
             ->setCreatedAt(new \DateTimeImmutable())
-            ->setUpdatedAt(new \DateTimeImmutable());
+            ->setUpdatedAt(new \DateTimeImmutable())
+            ->setBet($bet);
+
 
         $entityManager->persist($match);
         $entityManager->flush();

@@ -29,10 +29,10 @@
               <input type="checkbox" class="form-check-input" id="registerCheck">
               <label class="form-check-label" for="registerCheck">Check me out</label>
             </div>
-            <div class="mx-3 d-none alert alert-success" v-if="status != false" role="alert">
+            <div :class="'mx-3 d-none alert alert-success' + status != false ? 'd-none' : ''"  role="alert">
               Succesfully registration
             </div>
-            <div class="mx-3 d-none alert alert-danger" v-if="status == false" role="alert">
+            <div :class="'mx-3 alert alert-danger' + status == false ? 'd-none' : ''" role="alert">
               Error
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>

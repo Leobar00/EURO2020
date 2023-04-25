@@ -2,17 +2,45 @@
 
 namespace App\Controller;
 
+use App\Entity\Bet;
+use App\Repository\GameRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class BetController extends AbstractController
 {
-    #[Route('/bet', name: 'app_bet')]
-    public function index(): Response
+    #[Route('/ajax/bet', name: 'app_bet')]
+    public function index(Request $request,EntityManagerInterface $entityManager,GameRepository $gameRepository): JsonResponse
     {
-        return $this->render('bet/index.html.twig', [
-            'controller_name' => 'BetController',
+        $data      = json_decode($request->getContent(),true);
+        $homeGol  = $data['homeGol'];
+        $awayGol  = $data['awayGol'];
+        $matchId  = $data['matchId'];
+
+        $match = $gameRepository->findOneBy([
+            'id' => $matchId
+        ]);
+
+        if(empty($match)) {
+            return new JsonResponse([
+                'success' => false,
+            ]);
+        }
+
+        $bet = $match->getBet();
+        $bet
+            ->setHomeScore($homeGol)
+            ->setAwayScore($awayGol);
+
+        $entityManager->persist($bet);
+        $entityManager->flush();
+
+        return new JsonResponse([
+            'success' => true,
         ]);
     }
 }

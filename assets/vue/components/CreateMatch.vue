@@ -13,7 +13,7 @@
       <input type="datetime-local" v-model="startDate" class="form-control" id="match-date" />
     </div>
 
-    <button type="submit" class="btn btn-primary">Salva</button>
+    <button type="submit" class="btn btn-primary">Save</button>
   </form>
 </template>
 
@@ -47,6 +47,7 @@ export default {
         if(response.data.success) {
 
           console.log(response.data)
+          window.location.href = '/admin';
         }else {
 
           console.log(response.data)

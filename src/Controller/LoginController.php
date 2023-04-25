@@ -9,12 +9,13 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class LoginController extends AbstractController
 {
     #[Route('/ajax/login', name: 'app_login',methods: "POST")]
-    public function index(Request $request,UserRepository $userRepository): JsonResponse
+    public function index(Request $request,UserRepository $userRepository,SessionInterface $session): JsonResponse
     {
         $data     = json_decode($request->getContent(),true);
         $email    = $data['email'];
@@ -22,25 +23,26 @@ class LoginController extends AbstractController
 
         $user = $userRepository->findByEmail($email);
 
-        if ($user && password_verify($password, $user->getPassword())) {
-            return new JsonResponse([
-                'success' => true,
-                'message' => 'User found',
-                'username'=> $user->getName()
-            ]);
-        }
-
-        if($user) {
+        if(empty($user)) {
             return new JsonResponse([
                 'success' => false,
                 'message' => 'Wrong Password',
             ]);
         }
 
-        return new JsonResponse([
-            'success' => false,
-            'message' => 'User not found',
-        ]);
+        if (!password_verify($password, $user->getPassword())) {
+            return new JsonResponse([
+                'success' => false,
+                'message' => 'User not found',
+            ]);
+        }
 
+        $session->set('username', $user->getName());
+
+        return new JsonResponse([
+            'success' => true,
+            'message' => 'User found',
+            'username'=> $user->getName()
+        ]);
     }
 }

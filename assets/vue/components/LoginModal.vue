@@ -64,6 +64,7 @@ export default {
           this.status = true;
           this.name   = response.data.username
           document.querySelector('#login .alert-success').classList.remove('d-none');
+          this.$emit('username', this.name);
         }else {
 
           this.status = false;

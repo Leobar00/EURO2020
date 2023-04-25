@@ -1,5 +1,5 @@
 <template>
-  <LoginModal/>
+  <LoginModal @username="getUsername"/>
   <SignupModal />
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
@@ -13,7 +13,8 @@
       <div class="navbar-nav ms-auto d-flex align-items-center">
         <a class="nav-link" href="#">
           <i class="fas fa-user-circle me-1"></i>
-          Nome Utente
+          <span v-if="username">Welcome {{ username }}</span>
+          <span v-else>User</span>
         </a>
       </div>
 
@@ -32,7 +33,17 @@ import LoginModal from "./LoginModal";
 import SignupModal from "./SignupModal";
 export default {
   name: "Header",
-  components: {SignupModal, LoginModal}
+  components: {SignupModal, LoginModal},
+  data() {
+    return {
+      username:null
+    }
+  },
+  methods: {
+    getUsername(username) {
+      this.username = username
+    }
+  }
 }
 </script>
 

@@ -39,6 +39,9 @@ class User
     #[ORM\OneToMany(mappedBy: 'user_id', targetEntity: Bet::class)]
     private Collection $bets;
 
+    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
+    private ?Score $score = null;
+
     public function __construct()
     {
         $this->bets = new ArrayCollection();
@@ -160,6 +163,28 @@ class User
                 $bet->setUserId(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getScore(): ?Score
+    {
+        return $this->score;
+    }
+
+    public function setScore(?Score $score): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($score === null && $this->score !== null) {
+            $this->score->setUser(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($score !== null && $score->getUser() !== $this) {
+            $score->setUser($this);
+        }
+
+        $this->score = $score;
 
         return $this;
     }

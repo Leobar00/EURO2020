@@ -2,10 +2,10 @@ import { createRouter, createWebHistory } from 'vue-router';
 
 import Admin from './components/Admin'
 import App from "./App";
-import Match from "./components/Match";
+import Home from "./components/Home";
 
 const routes =  [
-    { path: '/',name:'Match', component: Match },
+    { path: '/',name:'Match', component: Home },
     { path: '/admin',name:'Admin', component: Admin }
 ];
 
